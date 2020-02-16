@@ -1,5 +1,6 @@
 import { Component , OnInit, ViewChild, ElementRef, Input} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import SampleJson from '../assets/evacuations.json';
 
 import * as H from '../assets/mapsjs-core.js';
 
@@ -17,8 +18,9 @@ export class AppComponent {
   
   public lat: any = '37.787663';  
   public lng: any = '-122.396644'; 
-  public safeLat: any = '37.802416';  
-  public safeLng: any = '-122.406098';  
+  public safeLat: any = '37.629063';  
+  public safeLng: any = '-122.378955';  
+  //37.629063, -122.378955
   public width: any = '1000px';  
   public height: any = '600px';  
   
@@ -31,12 +33,18 @@ export class AppComponent {
   private _appCode: string = 'uuuuuu';  
 
   public address: string;
+  public txtTitle: string;
+  public txtDescription: string;
+  
   public safeButton;
   public findButton;
   public isFirstStep = true;
   public isEnd = false;
+  public isSidebarVisible = false;
   
   public constructor() {  
+    console.log('Reading local json files');
+ console.log(SampleJson);
       
   }  
   
@@ -68,7 +76,10 @@ export class AppComponent {
   }  
   
   showDisasters(lat, lng){
-    alert("RED ALERT: Go inmediately to safe place!!!");
+    //alert("RED ALERT: Go inmediately to safe place!!!");
+    this.isSidebarVisible = true;
+    this.txtTitle = "WARNING!!!";
+    this.txtDescription = "RED ALERT: Go inmediately to safe place!!!";
     this.isFirstStep = false;
     console.log("inside show disasters");
     var index = 2;
@@ -135,6 +146,7 @@ export class AppComponent {
 
   }
   startOver(){
+    this.isSidebarVisible = false;
 
     this.isFirstStep = true;
     this.isEnd = false;
@@ -168,7 +180,9 @@ export class AppComponent {
         var travelTime = Math.floor(summary.travelTime / 60)  +' minutes '+ (summary.travelTime % 60)  + ' seconds. ';
         content += 'Travel Time: ' + travelTime + ' (in current traffic)';
      
-        alert(content);
+        //alert(content);
+        _self.txtTitle = "SAFE PLACE INFO";
+        _self.txtDescription = content;
         _self.addRouteShapeToMap(route);
         _self.seeInstructions(route);
         _self.addManueversToMap(route);
