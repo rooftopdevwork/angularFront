@@ -67,7 +67,7 @@
 
 .itemleft {
       flex: 0 1 auto;            /* new */
-      
+
     }
 
   .toolbar {
@@ -75,7 +75,7 @@
     width:100%;
     display: flex;
     margin: -6px -5px 0 -5px;
-    
+
     background-color: #000000;
     color: white;
     font-weight: 600;
@@ -86,7 +86,7 @@
   }
 
   .toolbar img {
-    margin: 0 16px;  
+    margin: 0 16px;
   }
 
   .toolbar #twitter-logo {
@@ -114,20 +114,20 @@
     width: 25%;
   }
   .sideBar .title{
-    
+
   font-family:Arial, Helvetica, sans-serif;
   font-size: 30px;
   color:#ffa500;
   padding: 10px 10px;
   }
   .sideBar .description{
-    
+
     font-family:Arial, Helvetica, sans-serif;
     font-size: 20px;
     color:#ffffff;
     padding: 10px 10px;
     }
-    
+
   .full {
     z-index: 1;
   }
@@ -139,10 +139,10 @@
   font-family:Arial, Helvetica, sans-serif;
   font-size: 15px;
 }
-.sideBar .description a:any-link {
-    
-    color:#ffa500 !important;
-    }
+a {
+
+  color:#ffa500 !important;
+}
 
 /*
   .buttonStyle {
@@ -155,7 +155,7 @@
     border: 1px solid #494949 !important;
     display: inline-block;
     transition: all 0.4s ease 0s;
-    
+
   }
   .buttonStyle:hover {
     color: #ffffff !important;
@@ -194,11 +194,11 @@
     <div class="itemcenter">
       <input type="text" id="address" placeholder="Write your address here" [(ngModel)]="address"  class="form-control" *ngIf="this.isFirstStep"/>
       <button (click)="addGeocodedMarker()" type="submit" *ngIf="this.isFirstStep">Find me</button>
-      <button (click)="showDirections()" type="submit" *ngIf="!this.isFirstStep && !this.isEnd">Go to safe place</button> 
-      <button (click)="startOver()" type="submit" *ngIf="this.isEnd">Start over</button> 
+      <button (click)="showDirections()" type="submit" *ngIf="!this.isFirstStep && !this.isEnd">Go to safe place</button>
+      <button (click)="startOver()" type="submit" *ngIf="this.isEnd">Start over</button>
     </div>
 
-  
+
 </div>
 <div class="content" role="main">
   <div class="sideBar" *ngIf="this.isSidebarVisible">
@@ -209,10 +209,11 @@
       {{ txtDescription}}<br/><br/>
       <div [innerHTML]="txtFlights"></div>
     </div>
-    <div class="docusign">
-      <button  type="submit">Click here to safe your posessions</button> 
+    <div class="docusign" *ngIf="this.isEnd">
+      <textarea width="300" height="200" placeholder="Describe the items to be put into safe storage"></textarea>
+      <button type="submit">Save your possessions</button>
     </div>
-    
+
   </div>
-  <div class="full" #map [style.width]="width" [style.height]="height"></div> 
+  <div class="full" #map [style.width]="width" [style.height]="height"></div>
 <router-outlet></router-outlet>

@@ -12,34 +12,34 @@ declare var H: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'HereMapDemo';  
-  
-  @ViewChild("map", { static: true }) public mapElement: ElementRef;  
-  
-  public lat: any = '37.787663';  
-  public lng: any = '-122.396644'; 
-  public safeLat: any = '37.629063';  
-  public safeLng: any = '-122.378955';  
+  title = 'HereMapDemo';
+
+  @ViewChild("map", { static: true }) public mapElement: ElementRef;
+
+  public lat: any = '37.787663';
+  public lng: any = '-122.396644';
+  public safeLat: any = '37.629063';
+  public safeLng: any = '-122.378955';
 
   //37.693469, -122.467855
-  public disasterLat: any = '37.693469';  
-  public disasterLng: any = '-122.467855';  
-  public width: any = '1000px';  
-  public height: any = '600px';  
-  
-  private platform: any;  
-  private map: any; 
-  private ui: any; 
-  private behavior: any; 
-  
-  private _appId: string = '9n-DSggWgGyXgJdXjvaOs0qSohBoLe14pDuZ_rZJ4-0';  
-  private _appCode: string = 'uuuuuu';  
+  public disasterLat: any = '37.693469';
+  public disasterLng: any = '-122.467855';
+  public width: any = '1000px';
+  public height: any = '600px';
+
+  private platform: any;
+  private map: any;
+  private ui: any;
+  private behavior: any;
+
+  private _appId: string = '9n-DSggWgGyXgJdXjvaOs0qSohBoLe14pDuZ_rZJ4-0';
+  private _appCode: string = 'uuuuuu';
 
   public address: string;
   public txtTitle: string;
   public txtDescription: string;
   public txtFlights: string;
-  
+
   public safeButton;
   public findButton;
   public isFirstStep = true;
@@ -47,47 +47,47 @@ export class AppComponent {
   public isSidebarVisible = false;
 
   public evacuationsJason;
-  
-  public constructor() {  
+
+  public constructor() {
     console.log('Reading local json files');
  console.log(SampleJson);
- 
+
  this.evacuationsJason = SampleJson;
-      
-  }  
-  
-  public ngOnInit() {  
+
+  }
+
+  public ngOnInit() {
     this.width = window.innerWidth + "px";
     this.height = (window.innerHeight - 60 ) + "px";
     console.log("size:" + this.width + " hei:" + this.height);
-    
-    this.platform = new H.service.Platform({  
+
+    this.platform = new H.service.Platform({
       'apikey':   '9n-DSggWgGyXgJdXjvaOs0qSohBoLe14pDuZ_rZJ4-0'
-    }); 
-      
-  }  
-  
-  public ngAfterViewInit() {  
+    });
+
+  }
+
+  public ngAfterViewInit() {
 
     var defaultLayers = this.platform.createDefaultLayers();
-    this.map = new H.Map(this.mapElement.nativeElement,defaultLayers.vector.normal.map); 
-  
-    this.behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));  
-    this.ui = H.ui.UI.createDefault(this.map, defaultLayers);  
-    this.map.setCenter({ lat: this.lat, lng: this.lng });  
-    this.map.setZoom(14); 
+    this.map = new H.Map(this.mapElement.nativeElement,defaultLayers.vector.normal.map);
+
+    this.behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+    this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
+    this.map.setCenter({ lat: this.lat, lng: this.lng });
+    this.map.setZoom(14);
 
     //let americaMarker = new H.map.Marker({lat:this.lat,lng:this.lng});
     //this.map.addObject(americaMarker);
-    
-    
-  }  
-  
+
+
+  }
+
   showDisasters(lat, lng){
     //alert("RED ALERT: Go inmediately to safe place!!!");
     this.isSidebarVisible = true;
     this.txtTitle = "WARNING";
-    this.txtDescription = "YELLOW ALERT: Go inmediately to safe place.";
+    this.txtDescription = "YELLOW ALERT: Go immediately to safe place.";
     this.isFirstStep = false;
     console.log("inside show disasters");
     var index = 2;
@@ -107,7 +107,7 @@ export class AppComponent {
       this.map.addObject(circle);
       index += 1;
     }
-    
+
 
   }
   addGeocodedMarker(){
@@ -119,9 +119,9 @@ export class AppComponent {
       var locations = result.Response.View[0].Result,
           position,
           marker;
-      
+
       var geoLat;
-      var geoLon; 
+      var geoLon;
       for (let i = 0;  i < locations.length; i++) {
         geoLat = locations[i].Location.DisplayPosition.Latitude;
         geoLon = locations[i].Location.DisplayPosition.Longitude;
@@ -133,14 +133,14 @@ export class AppComponent {
         };
         marker = new H.map.Marker(position);
         _self.map.addObject(marker);
-        _self.map.setCenter({ lat: geoLat, lng: geoLon });  
-        _self.map.setZoom(11);  
+        _self.map.setCenter({ lat: geoLat, lng: geoLon });
+        _self.map.setZoom(11);
       }
       _self.showDisasters(geoLat, geoLon);
-      
-      
+
+
     };
-    
+
     var geocodingParams = {
       searchText: this.address
     };
@@ -165,8 +165,8 @@ export class AppComponent {
     var objetsArray = this.map.getObjects()
 
     this.map.removeObjects(objetsArray);
-    
-  } 
+
+  }
   showDirections(){
     console.log("directions!!!");
     this.isEnd = true;
@@ -180,7 +180,7 @@ export class AppComponent {
         //coit tower hill 37.802416, -122.406098
         waypoint1: this.safeLat + ',' + this.safeLng  // Friedrichstraße Railway Station
       };
-  
+
       var _self = this;
       var onSuccess = function(result) {
         console.log("result:",result);
@@ -190,26 +190,26 @@ export class AppComponent {
         var content = 'Total distance to safe place: ' + summary.distance  + ' mts. ';
         var travelTime = Math.floor(summary.travelTime / 60)  +' minutes '+ (summary.travelTime % 60)  + ' seconds';
         content += 'Travel Time: ' + travelTime + ' (in current traffic). ';
-     
+
         //alert(content);
         _self.txtTitle = "SAFE PLACE INFO";
         _self.txtDescription = content;
         _self.showList();
 
 
-        
+
         _self.addRouteShapeToMap(route);
         _self.seeInstructions(route);
         _self.addManueversToMap(route);
 
-        
-        
+
+
         //_self.addWaypointsToPanel(route.waypoint);
         //_self.addManueversToPanel(route);
         //_self.addSummaryToPanel(route.summary);
-        
+
       };
-  
+
     router.calculateRoute(
       routeRequestParams,
       onSuccess,
@@ -217,21 +217,21 @@ export class AppComponent {
     );
   }
   showList(){
-    var flight = "<center>Flights Available</center>";
-    for(var i= 0; i < 3 ; i++){
+    var flight = "";
+    for(var i= 0; i < 2 ; i++){
       var number = i + 1;
       let dateString = SampleJson.evacuations.data[i].itineraries[0].segments[0].departure.at;
       let newDate = new Date(dateString);
       flight = flight + "<br/><br/><b>Flight " + number + "</b><br/>" + SampleJson.evacuations.data[i].price.currency + " " + SampleJson.evacuations.data[i].price.total +
     " departing " +  newDate.toUTCString() +
     " arriving at " + SampleJson.evacuations.data[i].itineraries[0].segments[0].arrival.iataCode +
-    " <br/><a href='#'>Select this flight</a> ";
+        " <br/><a href='https://www.google.com/flights#flt=/m/0d6lp.PDX.2020-02-16*PDX./m/0d6lp.2020-03-14;c:USD;e:1;sd:1;t:f' target=\"_blank\" style=\"color: #ffa500\">Select this flight</a> ";
     }
     this.txtFlights = flight
 
   }
 
-  
+
   seeInstructions(route){
     var group = new H.map.Group();
 
@@ -280,7 +280,7 @@ var icon = new H.map.Icon(svgMarkup),
       }
     }
   }
-  
+
   /**
    * This function will be called if a communication error occurs during the JSON-P request
    * @param  {Object} error  The error message received.
@@ -288,21 +288,21 @@ var icon = new H.map.Icon(svgMarkup),
   onError(error) {
     alert('Can\'t reach the remote server');
   }
-  
+
   //var routeInstructionsContainer = document.getElementById('panel');
-  
-  
-  
+
+
+
   addRouteShapeToMap(route){
     var lineString = new H.geo.LineString(),
       routeShape = route.shape,
       polyline;
-  
+
     routeShape.forEach(function(point) {
       var parts = point.split(',');
       lineString.pushLatLngAlt(parts[0], parts[1]);
     });
-  
+
     polyline = new H.map.Polyline(lineString, {
       style: {
         lineWidth: 4,
@@ -316,15 +316,15 @@ var icon = new H.map.Icon(svgMarkup),
       bounds: polyline.getBoundingBox()
     });
   }
-  
-  
+
+
   addManueversToMap(route){
     var svgMarkup = '',
       dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),
       group = new  H.map.Group(),
       i,
       j;
-  
+
     // Add a marker for each maneuver
     for (i = 0;  i < route.leg.length; i += 1) {
       for (j = 0;  j < route.leg[i].maneuver.length; j += 1) {
@@ -339,34 +339,34 @@ var icon = new H.map.Icon(svgMarkup),
         group.addObject(marker);
       }
     }
-  
+
     group.addEventListener('tap', function (evt) {
       this.map.setCenter(evt.target.getGeometry());
-      
+
     }, false);
-  
+
     // Add the maneuvers group to the map
     this.map.addObject(group);
   }
-  
-  
+
+
   addWaypointsToPanel(waypoints){
-  
-  
-  
+
+
+
     var nodeH3 = document.createElement('h3'),
       waypointLabels = [],
       i;
-  
-  
+
+
      for (i = 0;  i < waypoints.length; i += 1) {
       waypointLabels.push(waypoints[i].label)
      }
-  
+
      nodeH3.textContent = waypointLabels.join(' - ');
-  
+
   }
-  
+
   /**
    * Creates a series of H.map.Marker points from the route and adds them to the map.
    * @param {Object} route  A route as received from the H.service.RoutingService
@@ -377,48 +377,48 @@ var icon = new H.map.Icon(svgMarkup),
      content += 'Total distance: ' + summary.distance  + 'm.';
      var travelTime = Math.floor(summary.travelTime / 60)  +' minutes '+ (summary.travelTime % 60)  + ' seconds.';
      content += 'Travel Time: ' + travelTime + ' (in current traffic)';
-  
-  
+
+
      alert(content);
     summaryDiv.style.fontSize = 'small';
     summaryDiv.style.marginLeft ='5%';
     summaryDiv.style.marginRight ='5%';
     summaryDiv.innerHTML = content;
   }
-  
+
   addManueversToPanel(route){
-  
-  
-  
+
+
+
     var nodeOL = document.createElement('ol'),
       i,
       j;
-  
+
     nodeOL.style.fontSize = 'small';
     nodeOL.style.marginLeft ='5%';
     nodeOL.style.marginRight ='5%';
     nodeOL.className = 'directions';
-  
+
        // Add a marker for each maneuver
     for (i = 0;  i < route.leg.length; i += 1) {
       for (j = 0;  j < route.leg[i].maneuver.length; j += 1) {
         // Get the next maneuver.
         var maneuver = route.leg[i].maneuver[j];
-  
+
         var li = document.createElement('li'),
           spanArrow = document.createElement('span'),
           spanInstruction = document.createElement('span');
-  
+
         spanArrow.className = 'arrow '  + maneuver.action;
         spanInstruction.innerHTML = maneuver.instruction;
         li.appendChild(spanArrow);
         li.appendChild(spanInstruction);
-  
+
         nodeOL.appendChild(li);
       }
     }
-  
+
   }
-  
+
 
 }
