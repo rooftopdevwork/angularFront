@@ -20,7 +20,10 @@ export class AppComponent {
   public lng: any = '-122.396644'; 
   public safeLat: any = '37.629063';  
   public safeLng: any = '-122.378955';  
-  //37.629063, -122.378955
+
+  //37.693469, -122.467855
+  public disasterLat: any = '37.693469';  
+  public disasterLng: any = '-122.467855';  
   public width: any = '1000px';  
   public height: any = '600px';  
   
@@ -83,16 +86,16 @@ export class AppComponent {
   showDisasters(lat, lng){
     //alert("RED ALERT: Go inmediately to safe place!!!");
     this.isSidebarVisible = true;
-    this.txtTitle = "WARNING!!!";
-    this.txtDescription = "RED ALERT: Go inmediately to safe place!!!";
+    this.txtTitle = "WARNING";
+    this.txtDescription = "YELLOW ALERT: Go inmediately to safe place.";
     this.isFirstStep = false;
     console.log("inside show disasters");
     var index = 2;
     while (index <= 6) {
 
       let circle = new H.map.Circle(
-        {lat:lat - 0.002 * index,lng:lng-0.002 * index},
-        250,
+        {lat: this.disasterLat - 0.002 * index,lng: this.disasterLng - 0.002 * index},
+        1200,
         {
           style: {
             strokeColor: 'rgba(255, 165, 0, 0.6)', // Color of the perimeter
@@ -131,7 +134,7 @@ export class AppComponent {
         marker = new H.map.Marker(position);
         _self.map.addObject(marker);
         _self.map.setCenter({ lat: geoLat, lng: geoLon });  
-        _self.map.setZoom(14);  
+        _self.map.setZoom(11);  
       }
       _self.showDisasters(geoLat, geoLon);
       
