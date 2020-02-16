@@ -5,12 +5,14 @@ import { NotFoundComponent } from './Parts/not-found/not-found.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
+  { path: 'home', component: HomeComponent, outlet: 'content'
   },
-  { path: '**', component: NotFoundComponent }
+  { path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  { path: '**', component: NotFoundComponent,
+  }
 ];
 
 @NgModule({
