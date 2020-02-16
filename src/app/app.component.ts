@@ -16,7 +16,9 @@ export class AppComponent {
   @ViewChild("map", { static: true }) public mapElement: ElementRef;  
   
   public lat: any = '37.787663';  
-  public lng: any = '-122.396644';  
+  public lng: any = '-122.396644'; 
+  public safeLat: any = '37.802416';  
+  public safeLng: any = '-122.406098';  
   public width: any = '1000px';  
   public height: any = '600px';  
   
@@ -32,6 +34,7 @@ export class AppComponent {
   public safeButton;
   public findButton;
   public isFirstStep = true;
+  public isEnd = false;
   
   public constructor() {  
       
@@ -66,6 +69,7 @@ export class AppComponent {
   }  
   
   showDisasters(lat, lng){
+    alert("RED ALERT: Go inmediately to safe place!!!");
     this.isFirstStep = false;
     console.log("inside show disasters");
     var index = 2;
@@ -131,8 +135,14 @@ export class AppComponent {
 
 
   }
+  startOver(){
+
+    this.isFirstStep = true;
+    this.isEnd = false;
+  } 
   showDirections(){
     console.log("directions!!!");
+    this.isEnd = true;
     var router = this.platform.getRoutingService(),
       routeRequestParams = {
         mode: 'fastest;car',
@@ -141,7 +151,7 @@ export class AppComponent {
         maneuverattributes: 'direction,action',
         waypoint0: this.lat + ',' + this.lng, // Brandenburg Gate
         //coit tower hill 37.802416, -122.406098
-        waypoint1: '37.802416,-122.406098'  // Friedrichstraße Railway Station
+        waypoint1: this.safeLat + ',' + this.safeLng  // Friedrichstraße Railway Station
       };
   
       var _self = this;
@@ -204,10 +214,10 @@ export class AppComponent {
 
         var svgMarkup = '<svg width="24" height="24" ' +
     'xmlns="http://www.w3.org/2000/svg">' +
-    '<rect stroke="white" fill="#1b468d" x="1" y="1" width="22" ' +
+    '<rect stroke="white" fill="#ffa500" x="1" y="1" width="22" ' +
     'height="22" /><text x="12" y="18" font-size="12pt" ' +
     'font-family="Arial" font-weight="bold" text-anchor="middle" ' +
-    'fill="white">E</text></svg>';
+    'fill="black">E</text></svg>';
 
 // Create an icon, an object holding the latitude and longitude, and a marker:
 var icon = new H.map.Icon(svgMarkup),
@@ -247,7 +257,7 @@ var icon = new H.map.Icon(svgMarkup),
     polyline = new H.map.Polyline(lineString, {
       style: {
         lineWidth: 4,
-        strokeColor: 'rgba(0, 128, 255, 0.7)'
+        strokeColor: 'rgba(0, 0, 0, 0.7)'
       }
     });
     // Add the polyline to the map
