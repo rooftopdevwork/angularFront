@@ -41,10 +41,14 @@ export class AppComponent {
   public isFirstStep = true;
   public isEnd = false;
   public isSidebarVisible = false;
+
+  public evacuationsJason;
   
   public constructor() {  
     console.log('Reading local json files');
  console.log(SampleJson);
+ 
+ this.evacuationsJason = SampleJson;
       
   }  
   
@@ -177,12 +181,16 @@ export class AppComponent {
         console.log("route:", route);
         var summary = route.summary;
         var content = 'Total distance to safe place: ' + summary.distance  + ' mts. ';
-        var travelTime = Math.floor(summary.travelTime / 60)  +' minutes '+ (summary.travelTime % 60)  + ' seconds. ';
-        content += 'Travel Time: ' + travelTime + ' (in current traffic)';
+        var travelTime = Math.floor(summary.travelTime / 60)  +' minutes '+ (summary.travelTime % 60)  + ' seconds';
+        content += 'Travel Time: ' + travelTime + ' (in current traffic). ';
      
         //alert(content);
         _self.txtTitle = "SAFE PLACE INFO";
         _self.txtDescription = content;
+        _self.showList();
+
+
+        
         _self.addRouteShapeToMap(route);
         _self.seeInstructions(route);
         _self.addManueversToMap(route);
@@ -201,6 +209,14 @@ export class AppComponent {
       this.onError
     );
   }
+  showList(){
+    this.txtDescription = this.txtDescription + " Flights Available Price: " + SampleJson.evacuations.data[0].price.currency + " " + SampleJson.evacuations.data[0].price.total +
+    " Departure time: " + SampleJson.evacuations.data[0].itineraries[0].segments[0].departure.at +
+    " Arriving at: " + SampleJson.evacuations.data[0].itineraries[0].segments[0].arrival.iataCode;
+
+  }
+
+  
   seeInstructions(route){
     var group = new H.map.Group();
 
