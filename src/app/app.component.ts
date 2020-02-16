@@ -35,6 +35,7 @@ export class AppComponent {
   public address: string;
   public txtTitle: string;
   public txtDescription: string;
+  public txtFlights: string;
   
   public safeButton;
   public findButton;
@@ -151,6 +152,9 @@ export class AppComponent {
   }
   startOver(){
     this.isSidebarVisible = false;
+    this.txtFlights = "";
+    this.txtDescription = "";
+    this.txtTitle = "";
 
     this.isFirstStep = true;
     this.isEnd = false;
@@ -210,9 +214,17 @@ export class AppComponent {
     );
   }
   showList(){
-    this.txtDescription = this.txtDescription + " Flights Available Price: " + SampleJson.evacuations.data[0].price.currency + " " + SampleJson.evacuations.data[0].price.total +
-    " Departure time: " + SampleJson.evacuations.data[0].itineraries[0].segments[0].departure.at +
-    " Arriving at: " + SampleJson.evacuations.data[0].itineraries[0].segments[0].arrival.iataCode;
+    var flight = "<center>Flights Available</center>";
+    for(var i= 0; i < 3 ; i++){
+      var number = i + 1;
+      let dateString = SampleJson.evacuations.data[i].itineraries[0].segments[0].departure.at;
+      let newDate = new Date(dateString);
+      flight = flight + "<br/><br/><b>Flight " + number + "</b><br/>" + SampleJson.evacuations.data[i].price.currency + " " + SampleJson.evacuations.data[i].price.total +
+    " departing " +  newDate.toUTCString() +
+    " arriving at " + SampleJson.evacuations.data[i].itineraries[0].segments[0].arrival.iataCode +
+    " <br/><a href='#'>Select this flight</a> ";
+    }
+    this.txtFlights = flight
 
   }
 
