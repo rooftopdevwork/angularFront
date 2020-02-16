@@ -54,13 +54,12 @@ export class AppComponent {
   public ngAfterViewInit() {  
 
     var defaultLayers = this.platform.createDefaultLayers();
-    this.map = new H.Map(this.mapElement.nativeElement,defaultLayers.vector.normal.map);  
+    this.map = new H.Map(this.mapElement.nativeElement,defaultLayers.vector.normal.map); 
   
     this.behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));  
     this.ui = H.ui.UI.createDefault(this.map, defaultLayers);  
-  
     this.map.setCenter({ lat: this.lat, lng: this.lng });  
-    this.map.setZoom(15);  
+    this.map.setZoom(14); 
 
     //let americaMarker = new H.map.Marker({lat:this.lat,lng:this.lng});
     //this.map.addObject(americaMarker);
@@ -116,7 +115,7 @@ export class AppComponent {
         marker = new H.map.Marker(position);
         _self.map.addObject(marker);
         _self.map.setCenter({ lat: geoLat, lng: geoLon });  
-        _self.map.setZoom(15);  
+        _self.map.setZoom(14);  
       }
       _self.showDisasters(geoLat, geoLon);
       
@@ -139,6 +138,11 @@ export class AppComponent {
 
     this.isFirstStep = true;
     this.isEnd = false;
+
+    var objetsArray = this.map.getObjects()
+
+    this.map.removeObjects(objetsArray);
+    
   } 
   showDirections(){
     console.log("directions!!!");
